@@ -1,0 +1,43 @@
+Html Webpack Plugin:
+<pre>
+  Error: Parse Error: <!— built files will be auto injected —>
+  <script type="text/javascript" src="/static/js/manifest.a6b1ec47  8597d6b842de.js"></script><script type="text/javascript" src="/s  tatic/js/vendor.cb48bac5fa69df396dc4.js"></script><script type="  text/javascript" src="/static/js/app.47ecc1e5c5cd3b6e78ef.js"></  script></body>
+  </html>
+  
+  - htmlparser.js:235 new HTMLParser
+    [project]/[html-minifier]/src/htmlparser.js:235:13
+  
+  - htmlminifier.js:944 minify
+    [project]/[html-minifier]/src/htmlminifier.js:944:3
+  
+  - htmlminifier.js:1297 exports.minify
+    [project]/[html-minifier]/src/htmlminifier.js:1297:10
+  
+  - index.js:296 
+    [project]/[html-webpack-plugin]/index.js:296:16
+  
+  - util.js:16 tryCatcher
+    [project]/[bluebird]/js/release/util.js:16:23
+  
+  - promise.js:512 Promise._settlePromiseFromHandler
+    [project]/[bluebird]/js/release/promise.js:512:31
+  
+  - promise.js:569 Promise._settlePromise
+    [project]/[bluebird]/js/release/promise.js:569:18
+  
+  - promise.js:614 Promise._settlePromise0
+    [project]/[bluebird]/js/release/promise.js:614:10
+  
+  - promise.js:693 Promise._settlePromises
+    [project]/[bluebird]/js/release/promise.js:693:18
+  
+  - async.js:133 Async._drainQueue
+    [project]/[bluebird]/js/release/async.js:133:16
+  
+  - async.js:143 Async._drainQueues
+    [project]/[bluebird]/js/release/async.js:143:10
+  
+  - async.js:17 Immediate.Async.drainQueues
+    [project]/[bluebird]/js/release/async.js:17:14
+  
+</pre>
