@@ -9,26 +9,22 @@
     </div>
 
     <div class="content__shudle">
-
-      <div class="content__shudle-month">
-
-        <monthComp :date="currWeek" :_prevWeek="_prevWeek" :_nextWeek="_nextWeek"></monthComp>
-
-        <roomComp v-for="cRoom in rooms" :key="cRoom.index"  :type="cRoom" :date="currWeek" ></roomComp>
-
-      </div>
+        <div class="content__shudle-month">
+            <MonthSwitcher :date="currWeek" :_prevWeek="_prevWeek" :_nextWeek="_nextWeek" />
+            <RoomShudle v-for="cRoom in rooms" :key="cRoom.index"  :type="cRoom" :date="currWeek" ></RoomShudle>
+        </div>
     </div>
     </div>
 </template>
 
 <script>
-import monthComp from './components/monthComp'
-import roomComp from './components/roomComp'
+import MonthSwitcher from './components/MonthSwitcher'
+import RoomShudle from './components/RoomShudle'
 
 export default {
   components: {
-    monthComp,
-    roomComp
+    MonthSwitcher,
+    RoomShudle
   },
   name: 'App',
   data: function () {

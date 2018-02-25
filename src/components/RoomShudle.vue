@@ -17,7 +17,7 @@
 import tableComp from './tableComp'
 
 export default {
-  name: 'roomComp',
+  name: 'RoomShudle',
   components: {
     tableComp
   },
