@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'timeComp',
+  name: 'TableDaysTime',
   props: ['value', 'dataKey'],
   data: function () {
     return {

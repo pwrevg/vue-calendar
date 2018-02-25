@@ -7,19 +7,19 @@
       <span class="content__shudle-item-notice">{{ type.notice }}</span>
     </div>
 
-    <tableComp :type="type.type" :daykeys="date.daykeys" :days="date.days" ></tableComp>
+    <TableDays :type="type.type" :daykeys="date.daykeys" :days="date.days" ></TableDays>
 
   </div>
 
 </template>
 
 <script>
-import tableComp from './tableComp'
+import TableDays from './TableDays'
 
 export default {
   name: 'RoomShudle',
   components: {
-    tableComp
+    TableDays
   },
   props: ['date', 'type', '_reserve']
 }
