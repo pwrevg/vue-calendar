@@ -1,6 +1,6 @@
-# project
+# vue-calendar
 
-> A Vue.js project
+> vue.js test project
 
 ## Build Setup
 

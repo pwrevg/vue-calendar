@@ -1,8 +1,8 @@
 {
-  "name": "project",
+  "name": "vue-calendar",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Evgeny Blagochinnov <e.blagochinnov@id-network.ru>",
+  "description": "vue.js test project",
+  "author": "pwrevg@gmail.com",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
