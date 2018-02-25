@@ -14,13 +14,13 @@
 </template>
 
 <script>
-import tableComp from "./tableComp";
+import tableComp from './tableComp'
 
 export default {
   name: 'roomComp',
   components: {
-    tableComp,
+    tableComp
   },
-  props: ['date','type','_reserve'],
+  props: ['date', 'type', '_reserve']
 }
 </script>

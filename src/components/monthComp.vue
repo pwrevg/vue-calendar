@@ -22,6 +22,6 @@
 
 export default {
   name: 'monthComp',
-  props: ['date','_prevWeek','_nextWeek'],
+  props: ['date', '_prevWeek', '_nextWeek']
 }
 </script>

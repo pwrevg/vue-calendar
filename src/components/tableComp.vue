@@ -25,13 +25,13 @@
 </template>
 
 <script>
-import timeComp from "./timeComp";
+import timeComp from './timeComp'
 
 export default {
   name: 'tableComp',
   components: {
-    timeComp,
+    timeComp
   },
-  props: ['days','daykeys','type','_reserve'],
+  props: ['days', 'daykeys', 'type', '_reserve']
 }
 </script>
