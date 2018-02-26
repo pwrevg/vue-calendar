@@ -1,4 +1,5 @@
 <template>
+
   <div class="content__shudle-month-room-block">
     <div class="content__shudle-month-item item_type " >
       {{ type.label }}
@@ -10,6 +11,7 @@
       :days="date.days"
     ></TableDays>
   </div>
+
 </template>
 <script>
 import TableDays from './TableDays'

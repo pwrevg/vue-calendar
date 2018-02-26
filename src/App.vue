@@ -1,4 +1,5 @@
 <template>
+
     <div class="content">
     <div class="content__title">
       Бронирование переговорок
@@ -13,7 +14,7 @@
               v-on:next="NextWeek"
             />
             <RoomShudle
-              v-for="cRoom in rooms"
+              v-for="cRoom in Rooms"
               :key="cRoom.index"
               :type="cRoom"
               :date="currWeek"
@@ -21,6 +22,7 @@
         </div>
     </div>
     </div>
+
 </template>
 <script>
 import MonthSwitcher from './components/MonthSwitcher'
@@ -34,7 +36,7 @@ export default {
   name: 'App',
   data: function () {
     return {
-      rooms: {
+      Rooms: {
         1: {label: 'Зелёная', notice: '(до 5 персон)', type: 'green'},
         2: {label: 'Красная', notice: '(до 15 персон)', type: 'red'},
         3: {label: 'Синяя', notice: '(до 25 персон)', type: 'blue'},
@@ -63,6 +65,7 @@ export default {
       let weekObject = {
         currentTime: day,
         monthTitle: this.FormatMonth(funcDate.getMonth()) + ' ' + funcDate.getFullYear(),
+        dayOfMonth: funcDate.getDate(),
         days: {},
         daykeys: {},
         times: {
@@ -127,20 +130,20 @@ export default {
       this.currWeek = weekObject
       return weekObject
     },
-    FormatMonth (month) {
-      let arr = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
-      return arr[month]
+    FormatMonth (MonthIndex) {
+      let MonthFormatName = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+      return MonthFormatName[MonthIndex]
     },
-    FormatDay (day) {
-      let arrDays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
-      return arrDays[day]
+    FormatDay (DayIndex) {
+      let DaysFormatName = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+      return DaysFormatName[DayIndex]
     },
-    PrevWeek (day) {
-      let time = day - (this.secondInDay * 7)
+    PrevWeek (TimeStamp) {
+      let time = new Date(TimeStamp).setDate(new Date(TimeStamp).getDate() - 7)
       return this.CurrentWeek(time)
     },
-    NextWeek (day) {
-      let time = day + (this.secondInDay * 7)
+    NextWeek (TimeStamp) {
+      let time = new Date(TimeStamp).setDate(new Date(TimeStamp).getDate() + 7)
       return this.CurrentWeek(time)
     }
   }

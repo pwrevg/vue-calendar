@@ -1,4 +1,5 @@
 <template>
+
   <div class="content__shudle-table">
       <div
         v-for="(item, index) in daykeys"
@@ -24,6 +25,7 @@
             </div>
       </div>
   </div>
+
 </template>
 <script>
 import TableDaysTime from './TableDaysTime'

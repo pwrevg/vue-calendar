@@ -1,4 +1,5 @@
 <template>
+
   <div class="content__shudle-month-room-block nostyle">
     <div class="content__shudle-item" >Комната</div>
     <div class="content__shudle-month-title">{{ date.monthTitle }}</div>
@@ -12,6 +13,7 @@
       </div>
     </div>
   </div>
+
 </template>
 <script>
 export default {

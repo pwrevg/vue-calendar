@@ -1,5 +1,7 @@
 <template>
+
   <div v-on:click="_reserve" class="content__shudle-time-zone " v-bind:class="{ blocked: isReserved, blockreserve: oldtime }">{{ value }}</div>
+
 </template>
 <script>
 export default {
