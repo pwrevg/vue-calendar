@@ -1,22 +1,27 @@
 <template>
     <div class="content">
-
     <div class="content__title">
       Бронирование переговорок
     </div>
-
     <div class="content__logo">
     </div>
-
     <div class="content__shudle">
         <div class="content__shudle-month">
-            <MonthSwitcher :date="currWeek" :_prevWeek="_prevWeek" :_nextWeek="_nextWeek" />
-            <RoomShudle v-for="cRoom in rooms" :key="cRoom.index"  :type="cRoom" :date="currWeek" ></RoomShudle>
+            <MonthSwitcher
+              :date="currWeek"
+              v-on:prev="PrevWeek"
+              v-on:next="NextWeek"
+            />
+            <RoomShudle
+              v-for="cRoom in rooms"
+              :key="cRoom.index"
+              :type="cRoom"
+              :date="currWeek"
+            ></RoomShudle>
         </div>
     </div>
     </div>
 </template>
-
 <script>
 import MonthSwitcher from './components/MonthSwitcher'
 import RoomShudle from './components/RoomShudle'
@@ -35,19 +40,21 @@ export default {
         3: {label: 'Синяя', notice: '(до 25 персон)', type: 'blue'},
         4: {label: 'Фиолетовая', notice: '(до 35 персон)', type: 'purpure'}
       },
-      secInDay: 86400000,
+      secondInDay: 86400000,
       currentDate: new Date(),
-      currMonth: this.formatMonth(new Date().getMonth()),
+      currMonth: this.FormatMonth(new Date().getMonth()),
       currDayInt: new Date().getDay(),
       currWeek: undefined
     }
   },
   created () {
-    this.currWeek = this.returnCurrentWeek(new Date().getTime())
+    this.currWeek = this.CurrentWeek(new Date().getTime())
+    this.$emit('prev', event)
+    this.$emit('next', event)
   },
   methods: {
-    returnCurrentWeek (day) {
-      let secInDay = this.secInDay
+    CurrentWeek (day) {
+      let secondInDay = this.secondInDay
       let funcDate = new Date(day)
       let numbDay = funcDate.getDay() - 1
       let countDays = 0
@@ -55,7 +62,7 @@ export default {
       let arKey = 0
       let weekObject = {
         currentTime: day,
-        monthTitle: this.formatMonth(funcDate.getMonth()) + ' ' + funcDate.getFullYear(),
+        monthTitle: this.FormatMonth(funcDate.getMonth()) + ' ' + funcDate.getFullYear(),
         days: {},
         daykeys: {},
         times: {
@@ -78,14 +85,14 @@ export default {
 
       while (countDays <= 4) {
         if (numbDay > countDays) {
-          resultMath = (countDays - numbDay) * secInDay
+          resultMath = (countDays - numbDay) * secondInDay
         } else if (numbDay === countDays) {
           resultMath = 0
         } else if (numbDay < countDays) {
-          resultMath = (countDays - numbDay) * secInDay
+          resultMath = (countDays - numbDay) * secondInDay
         }
 
-        weekObject.days[countDays] = new Date(day + resultMath).getDate() + ' ' + this.formatDay(new Date(day + resultMath).getDay() - 1)
+        weekObject.days[countDays] = new Date(day + resultMath).getDate() + ' ' + this.FormatDay(new Date(day + resultMath).getDay() - 1)
 
         weekObject.daykeys[countDays] = {
           am: [],
@@ -120,23 +127,22 @@ export default {
       this.currWeek = weekObject
       return weekObject
     },
-    formatMonth (month) {
+    FormatMonth (month) {
       let arr = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
       return arr[month]
     },
-    formatDay (day) {
+    FormatDay (day) {
       let arrDays = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
       return arrDays[day]
     },
-    _prevWeek (day) {
-      let time = day - (this.secInDay * 7)
-      return this.returnCurrentWeek(time)
+    PrevWeek (day) {
+      let time = day - (this.secondInDay * 7)
+      return this.CurrentWeek(time)
     },
-    _nextWeek (day) {
-      let time = day + (this.secInDay * 7)
-      return this.returnCurrentWeek(time)
+    NextWeek (day) {
+      let time = day + (this.secondInDay * 7)
+      return this.CurrentWeek(time)
     }
-
   }
 }
 </script>
