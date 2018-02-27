@@ -10,6 +10,7 @@
             <div class="content__shudle-row">
                 <TableDaysTime
                   v-for="time in times.am"
+                  :key="time.index"
                   :StorageKey="type+'_'+time.key"
                   :value="time.value"
                 />
@@ -17,6 +18,7 @@
             <div class="content__shudle-row">
                 <TableDaysTime
                   v-for="time in times.pm"
+                  :key="time.index"
                   :StorageKey="type+'_'+time.key"
                   :value="time.value"
                 />
