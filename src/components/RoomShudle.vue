@@ -2,12 +2,12 @@
 
   <div class="content__shudle-month-room-block">
     <div class="content__shudle-month-item item_type " >
-      {{ type.label }}
-      <span class="content__shudle-item-notice">{{ type.notice }}</span>
+      {{ room.label }}
+      <span class="content__shudle-item-notice">{{ room.notice }}</span>
     </div>
     <TableDays
-      :type="type.type"
-      :daykeys="date.daykeys"
+      :type="room.type"
+      :StorageKeyObject="date.StorageKeyObject"
       :days="date.days"
     ></TableDays>
   </div>
@@ -20,6 +20,6 @@ export default {
   components: {
     TableDays
   },
-  props: ['date', 'type', '_reserve']
+  props: ['date', 'room']
 }
 </script>

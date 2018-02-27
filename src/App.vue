@@ -9,15 +9,15 @@
     <div class="content__shudle">
         <div class="content__shudle-month">
             <MonthSwitcher
-              :date="currWeek"
+              :date="ThisWeek"
               v-on:prev="PrevWeek"
               v-on:next="NextWeek"
             />
             <RoomShudle
-              v-for="cRoom in Rooms"
-              :key="cRoom.index"
-              :type="cRoom"
-              :date="currWeek"
+              v-for="room in Rooms"
+              :key="room.index"
+              :room="room"
+              :date="ThisWeek"
             ></RoomShudle>
         </div>
     </div>
@@ -44,13 +44,11 @@ export default {
       },
       secondInDay: 86400000,
       currentDate: new Date(),
-      currMonth: this.FormatMonth(new Date().getMonth()),
-      currDayInt: new Date().getDay(),
-      currWeek: undefined
+      ThisWeek: undefined
     }
   },
   created () {
-    this.currWeek = this.CurrentWeek(new Date().getTime())
+    this.ThisWeek = this.CurrentWeek(new Date().getTime())
     this.$emit('prev', event)
     this.$emit('next', event)
   },
@@ -61,13 +59,13 @@ export default {
       let numbDay = funcDate.getDay() - 1
       let countDays = 0
       let resultMath = 0
-      let arKey = 0
-      let weekObject = {
+      let StorageKey = 0
+      let ThisWeekCalculate = {
         currentTime: day,
         monthTitle: this.FormatMonth(funcDate.getMonth()) + ' ' + funcDate.getFullYear(),
         dayOfMonth: funcDate.getDate(),
         days: {},
-        daykeys: {},
+        StorageKeyObject: {},
         times: {
           am: [
             {'9_00': '9:00'},
@@ -95,31 +93,29 @@ export default {
           resultMath = (countDays - numbDay) * secondInDay
         }
 
-        weekObject.days[countDays] = new Date(day + resultMath).getDate() + ' ' + this.FormatDay(new Date(day + resultMath).getDay() - 1)
-
-        weekObject.daykeys[countDays] = {
+        ThisWeekCalculate.days[countDays] = new Date(day + resultMath).getDate() + ' ' + this.FormatDay(new Date(day + resultMath).getDay() - 1)
+        ThisWeekCalculate.StorageKeyObject[countDays] = {
           am: [],
           pm: []
         }
 
-        arKey = new Date(day + resultMath)
-
-        weekObject.times.am.forEach(function (item, index) {
+        StorageKey = new Date(day + resultMath)
+        ThisWeekCalculate.times.am.forEach(function (item, index) {
           let arItemKey = Object.keys(item)[0]
           let arItemVal = Object.values(item)[0]
 
-          weekObject.daykeys[countDays].am.push({
-            key: arKey.getFullYear() + '_' + arKey.getMonth() + '_' + arKey.getDate() + '_' + arKey.getDay() + '_' + arItemKey,
+          ThisWeekCalculate.StorageKeyObject[countDays].am.push({
+            key: StorageKey.getFullYear() + '_' + StorageKey.getMonth() + '_' + StorageKey.getDate() + '_' + StorageKey.getDay() + '_' + arItemKey,
             value: arItemVal
           })
         })
 
-        weekObject.times.pm.forEach(function (item, index) {
+        ThisWeekCalculate.times.pm.forEach(function (item, index) {
           let arItemKey = Object.keys(item)[0]
           let arItemVal = Object.values(item)[0]
 
-          weekObject.daykeys[countDays].pm.push({
-            key: arKey.getFullYear() + '_' + arKey.getMonth() + '_' + arKey.getDate() + '_' + arKey.getDay() + '_' + arItemKey,
+          ThisWeekCalculate.StorageKeyObject[countDays].pm.push({
+            key: StorageKey.getFullYear() + '_' + StorageKey.getMonth() + '_' + StorageKey.getDate() + '_' + StorageKey.getDay() + '_' + arItemKey,
             value: arItemVal
           })
         })
@@ -127,8 +123,8 @@ export default {
         countDays++
       }
 
-      this.currWeek = weekObject
-      return weekObject
+      this.ThisWeek = ThisWeekCalculate
+      return ThisWeekCalculate
     },
     FormatMonth (MonthIndex) {
       let MonthFormatName = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']

@@ -6,7 +6,7 @@
 <script>
 export default {
   name: 'TableDaysTime',
-  props: ['value', 'dataKey'],
+  props: ['value', 'StorageKey'],
   data: function () {
     return {
       isReserved: false,
@@ -20,7 +20,7 @@ export default {
     this.isReserved = this._isReserve()
   },
   watch: {
-    dataKey () {
+    StorageKey () {
       this.isReserved = this._isReserve()
       this.oldtime = this._isOldtime()
     }
@@ -29,16 +29,16 @@ export default {
     _reserve () {
       if (!this.oldtime) {
         if (this.isReserved) {
-          localStorage.removeItem(this.dataKey, 1)
+          localStorage.removeItem(this.StorageKey, 1)
           this.isReserved = false
         } else {
-          localStorage.setItem(this.dataKey, 1)
+          localStorage.setItem(this.StorageKey, 1)
           this.isReserved = true
         }
       }
     },
     _isOldtime () {
-      this.arrDateKey = this.dataKey.split('_')
+      this.arrDateKey = this.StorageKey.split('_')
       this.currTime = this.arrDateKey[1] + '.' + (parseInt(this.arrDateKey[2]) + 1) + '.' + this.arrDateKey[3] + ' ' + this.arrDateKey[5] + ':' + this.arrDateKey[6]
       if (+new Date() > +new Date(this.currTime)) {
         return true
@@ -47,7 +47,7 @@ export default {
       }
     },
     _isReserve () {
-      if (localStorage.getItem(this.dataKey)) {
+      if (localStorage.getItem(this.StorageKey)) {
         return true
       } else {
         return false

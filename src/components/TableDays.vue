@@ -2,25 +2,23 @@
 
   <div class="content__shudle-table">
       <div
-        v-for="(item, index) in daykeys"
-        :key="item.index"
+        v-for="(times, index) in StorageKeyObject"
+        :key="times.index"
         class="content__shudle-time"
       >
           <div class="content__shudle-block-title" >{{days[index]}}</div>
             <div class="content__shudle-row">
                 <TableDaysTime
-                  v-for="dayKey in item.am"
-                  :key="dayKey.index"
-                  :dataKey="type+'_'+dayKey.key"
-                  :value="dayKey.value"
+                  v-for="time in times.am"
+                  :StorageKey="type+'_'+time.key"
+                  :value="time.value"
                 />
             </div>
             <div class="content__shudle-row">
                 <TableDaysTime
-                  v-for="dayKey in item.pm"
-                  :key="dayKey.index"
-                  :dataKey="type+'_'+dayKey.key"
-                  :value="dayKey.value"
+                  v-for="time in times.pm"
+                  :StorageKey="type+'_'+time.key"
+                  :value="time.value"
                 />
             </div>
       </div>
@@ -34,6 +32,6 @@ export default {
   components: {
     TableDaysTime
   },
-  props: ['days', 'daykeys', 'type', '_reserve']
+  props: ['days', 'StorageKeyObject', 'type', '_reserve']
 }
 </script>
