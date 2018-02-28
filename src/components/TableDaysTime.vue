@@ -19,7 +19,7 @@ export default {
   created () {
     this.oldtime = this._isOldtime()
     this.isReserved = this._isReserve()
-    window.setInterval(() => { this.oldtime = this._isOldtime() }, 3600000)
+    window.setInterval(() => { this.oldtime = this._isOldtime() }, 60000)
   },
   watch: {
     StorageKey () {
