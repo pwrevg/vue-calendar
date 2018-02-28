@@ -12,12 +12,14 @@ export default {
       isReserved: false,
       oldtime: false,
       arrDateKey: [],
-      currTime: ''
+      currTime: '',
+      timeNow: undefined
     }
   },
   created () {
     this.oldtime = this._isOldtime()
     this.isReserved = this._isReserve()
+    window.setInterval(() => { this.oldtime = this._isOldtime() }, 3600000)
   },
   watch: {
     StorageKey () {
