@@ -44,7 +44,6 @@ export default {
       },
       secondInDay: 86400000,
       currentDate: +new Date(),
-      //currentTime: undefined,
       ThisWeek: undefined
     }
   },
@@ -52,7 +51,6 @@ export default {
     this.ThisWeek = this.CurrentWeek(new Date().getTime())
     this.$emit('prev', event)
     this.$emit('next', event)
-    //window.setInterval(() => { this.currentTime = +new Date() }, 1000)
   },
   watch: {
 
