@@ -9,7 +9,7 @@
     <div class="content__shudle">
         <div class="content__shudle-month">
             <MonthSwitcher
-              :date="ThisWeek"
+              :date="$store.state.ThisWeek"
               v-on:prev="PrevWeek"
               v-on:next="NextWeek"
             />
@@ -17,7 +17,7 @@
               v-for="room in Rooms"
               :key="room.index"
               :room="room"
-              :date="ThisWeek"
+              :date="$store.state.ThisWeek"
             ></RoomShudle>
         </div>
     </div>
@@ -48,12 +48,9 @@ export default {
     }
   },
   created () {
-    this.ThisWeek = this.CurrentWeek(new Date().getTime())
+    this.$store.state.ThisWeek = this.CurrentWeek(new Date().getTime())
     this.$emit('prev', event)
     this.$emit('next', event)
-  },
-  watch: {
-
   },
   methods: {
     CurrentWeek (day) {
@@ -126,7 +123,7 @@ export default {
         countDays++
       }
 
-      this.ThisWeek = ThisWeekCalculate
+      this.$store.state.state = ThisWeekCalculate.monthTitle
       return ThisWeekCalculate
     },
     FormatMonth (MonthIndex) {
@@ -139,11 +136,13 @@ export default {
     },
     PrevWeek (TimeStamp) {
       let time = new Date(TimeStamp).setDate(new Date(TimeStamp).getDate() - 7)
-      return this.CurrentWeek(time)
+      this.$store.state.ThisWeek = this.CurrentWeek(time)
+      return this.$store.state.ThisWeek
     },
     NextWeek (TimeStamp) {
       let time = new Date(TimeStamp).setDate(new Date(TimeStamp).getDate() + 7)
-      return this.CurrentWeek(time)
+      this.$store.state.ThisWeek = this.CurrentWeek(time)
+      return this.$store.state.ThisWeek
     }
   }
 }
