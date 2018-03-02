@@ -1,31 +1,45 @@
 <template>
-
-  <div v-on:click="_reserve" class="content__shudle-time-zone " v-bind:class="{ blocked: isReserved, blockreserve: oldtime }">{{ value }}</div>
-
+  <div
+    class="content__shudle-time-zone "
+    v-on:click="_reserve"
+    v-bind:class="{ blocked: isReserved, blockreserve: oldtime }"
+  >{{ value }}</div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'TableDaysTime',
-  props: ['value', 'StorageKey'],
+  props: ['value', 'roomIndex', 'dayIndex'],
   data: function () {
     return {
       isReserved: false,
       oldtime: false,
-      arrDateKey: [],
-      currTime: '',
-      timeNow: undefined
+      currentDay: this.getCurrentDate,
+      timeNow: undefined,
+      StorageKey: undefined
     }
+  },
+  computed: {
+    ...mapGetters(['getCurrentDate', 'getRooms']),
+    refresh () {
+      this.currentDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
+      this.timeNow = new Date(new Date(this.currentDay).getFullYear() + '.' + (new Date(this.currentDay).getMonth() + 1) + '.' + new Date(this.currentDay).getDate() + ' ' + this.value)
+      this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.currentDay).getFullYear() + '_' + new Date(this.currentDay).getMonth() + '_' + new Date(this.currentDay).getDate() + '_' + new Date(this.currentDay).getDay() + '_' + this.value.replace(':', '_')
+      console.log('refresh')
+    }
+
   },
   created () {
+    this.currentDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
+    this.timeNow = new Date(new Date(this.currentDay).getFullYear() + '.' + (new Date(this.currentDay).getMonth() + 1) + '.' + new Date(this.currentDay).getDate() + ' ' + this.value)
+    this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.currentDay).getFullYear() + '_' + new Date(this.currentDay).getMonth() + '_' + new Date(this.currentDay).getDate() + '_' + new Date(this.currentDay).getDay() + '_' + this.value.replace(':', '_')
     this.oldtime = this._isOldtime()
     this.isReserved = this._isReserve()
-    window.setInterval(() => { this.oldtime = this._isOldtime() }, 60000)
+
+    //setInterval(() => { this.oldtime = this._isOldtime() }, 60000)
   },
   watch: {
-    StorageKey () {
-      this.isReserved = this._isReserve()
-      this.oldtime = this._isOldtime()
-    }
   },
   methods: {
     _reserve () {
@@ -40,9 +54,7 @@ export default {
       }
     },
     _isOldtime () {
-      this.arrDateKey = this.StorageKey.split('_')
-      this.currTime = this.arrDateKey[1] + '.' + (parseInt(this.arrDateKey[2]) + 1) + '.' + this.arrDateKey[3] + ' ' + this.arrDateKey[5] + ':' + this.arrDateKey[6]
-      if (+new Date() > +new Date(this.currTime)) {
+      if (this.getCurrentDate > +new Date(this.timeNow)) {
         return true
       } else {
         return false

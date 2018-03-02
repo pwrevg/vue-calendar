@@ -1,30 +1,38 @@
 <template>
-
   <div class="content__shudle-month-room-block nostyle">
     <div class="content__shudle-item" >Комната</div>
-    <div class="content__shudle-month-title">{{ date.monthTitle }}</div>
+    <div class="content__shudle-month-title">{{ this.getMonthTitle }}</div>
     <div class="content__shudle-month-prev"></div>
-    <div @click="$emit('prev', date.currentTime)" class="content__shudle-month-prev-area"></div>
+    <div @click="_prev" class="content__shudle-month-prev-area"></div>
     <div class="content__shudle-month-next"></div>
-    <div @click="$emit('next', date.currentTime)" class="content__shudle-month-next-area"></div>
+    <div @click="_next" class="content__shudle-month-next-area"></div>
     <div class="content__shudle-month-days">
-      <div v-for="item in date.days" :key="item.index" class="content__shudle-month-day">
-        {{ item }}
+      <div v-for="dayTitle in this.getWeekDays" :key="dayTitle.index" class="content__shudle-month-day">
+        {{ dayTitle }}
       </div>
     </div>
   </div>
-
 </template>
 <script>
+import { mapMutations, mapGetters } from 'vuex'
+
 export default {
   name: 'MonthSwitcher',
-  props: ['date'],
+  created () {
+    this.calculateWeekDays()
+  },
+  computed: {
+    ...mapGetters(['getMonthTitle', 'getWeekDays']),
+  },
   methods: {
-    prev: function () {
-      this.$emit('prev', this.date.currentTime)
+    ...mapMutations(['changeDatePrevWeek', 'changeDateNextWeek', 'calculateWeekDays']),
+    _prev () {
+      this.changeDatePrevWeek()
+      this.calculateWeekDays()
     },
-    next: function () {
-      this.$emit('next', this.date.currentTime)
+    _next () {
+      this.changeDateNextWeek()
+      this.calculateWeekDays()
     }
   }
 }
