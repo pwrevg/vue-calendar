@@ -31,7 +31,6 @@ export default {
     this.nowDate = new Date(this.getCurrentDate)
     this.oldtime = this._isOldtime()
     this.isReserved = this._isReserve()
-
   },
   watch: {
     getCurrentDate: function (event) {
