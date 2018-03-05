@@ -43,7 +43,6 @@ export default {
     }
   },
   created () {
-    this.ThisWeek = this.CurrentWeek(new Date().getTime())
   },
   methods: {
     ...mapMutations(['changeDate']),

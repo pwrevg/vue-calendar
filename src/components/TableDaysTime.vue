@@ -15,31 +15,32 @@ export default {
     return {
       isReserved: false,
       oldtime: false,
-      currentDay: this.getCurrentDate,
+      nowDate: undefined,
+      startWeekDay: this.getCurrentDate,
       timeNow: undefined,
       StorageKey: undefined
     }
   },
   computed: {
-    ...mapGetters(['getCurrentDate', 'getRooms']),
-    refresh () {
-      this.currentDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
-      this.timeNow = new Date(new Date(this.currentDay).getFullYear() + '.' + (new Date(this.currentDay).getMonth() + 1) + '.' + new Date(this.currentDay).getDate() + ' ' + this.value)
-      this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.currentDay).getFullYear() + '_' + new Date(this.currentDay).getMonth() + '_' + new Date(this.currentDay).getDate() + '_' + new Date(this.currentDay).getDay() + '_' + this.value.replace(':', '_')
-      console.log('refresh')
-    }
-
+    ...mapGetters(['getCurrentDate', 'getRooms'])
   },
   created () {
-    this.currentDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
-    this.timeNow = new Date(new Date(this.currentDay).getFullYear() + '.' + (new Date(this.currentDay).getMonth() + 1) + '.' + new Date(this.currentDay).getDate() + ' ' + this.value)
-    this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.currentDay).getFullYear() + '_' + new Date(this.currentDay).getMonth() + '_' + new Date(this.currentDay).getDate() + '_' + new Date(this.currentDay).getDay() + '_' + this.value.replace(':', '_')
+    this.startWeekDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
+    this.timeNow = new Date(new Date(this.startWeekDay).getFullYear() + '.' + (new Date(this.startWeekDay).getMonth() + 1) + '.' + new Date(this.startWeekDay).getDate() + ' ' + this.value)
+    this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.startWeekDay).getFullYear() + '_' + new Date(this.startWeekDay).getMonth() + '_' + new Date(this.startWeekDay).getDate() + '_' + new Date(this.startWeekDay).getDay() + '_' + this.value.replace(':', '_')
+    this.nowDate = new Date(this.getCurrentDate)
     this.oldtime = this._isOldtime()
     this.isReserved = this._isReserve()
 
-    //setInterval(() => { this.oldtime = this._isOldtime() }, 60000)
   },
   watch: {
+    getCurrentDate: function (event) {
+      this.startWeekDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
+      this.timeNow = new Date(new Date(this.startWeekDay).getFullYear() + '.' + (new Date(this.startWeekDay).getMonth() + 1) + '.' + new Date(this.startWeekDay).getDate() + ' ' + this.value)
+      this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.startWeekDay).getFullYear() + '_' + new Date(this.startWeekDay).getMonth() + '_' + new Date(this.startWeekDay).getDate() + '_' + new Date(this.startWeekDay).getDay() + '_' + this.value.replace(':', '_')
+      this.oldtime = this._isOldtime()
+      this.isReserved = this._isReserve()
+    }
   },
   methods: {
     _reserve () {
@@ -54,7 +55,7 @@ export default {
       }
     },
     _isOldtime () {
-      if (this.getCurrentDate > +new Date(this.timeNow)) {
+      if (+new Date(this.nowDate) > +new Date(this.timeNow)) {
         return true
       } else {
         return false

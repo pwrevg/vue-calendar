@@ -22,7 +22,7 @@ export default {
     this.calculateWeekDays()
   },
   computed: {
-    ...mapGetters(['getMonthTitle', 'getWeekDays']),
+    ...mapGetters(['getMonthTitle', 'getWeekDays'])
   },
   methods: {
     ...mapMutations(['changeDatePrevWeek', 'changeDateNextWeek', 'calculateWeekDays']),
