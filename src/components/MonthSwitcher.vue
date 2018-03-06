@@ -25,13 +25,13 @@ export default {
     ...mapGetters(['getMonthTitle', 'getWeekDays'])
   },
   methods: {
-    ...mapMutations(['changeDatePrevWeek', 'changeDateNextWeek', 'calculateWeekDays']),
+    ...mapMutations(['changeDatePrevWeek', 'changeDateNextWeek', 'calculateWeekDays', 'changeDateWeek']),
     _prev () {
-      this.changeDatePrevWeek()
+      this.changeDateWeek('-')
       this.calculateWeekDays()
     },
     _next () {
-      this.changeDateNextWeek()
+      this.changeDateWeek()
       this.calculateWeekDays()
     }
   }

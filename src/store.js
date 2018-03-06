@@ -14,8 +14,6 @@ export default new Vuex.Store({
       3: {label: 'Синяя', notice: '(до 25 персон)', type: 'blue'},
       4: {label: 'Фиолетовая', notice: '(до 35 персон)', type: 'purpure'}
     },
-    monthTitle: undefined,
-    thisWeek: undefined,
     thisWeekDays: {},
     thisWeekDaysCount: 5
   },
@@ -23,14 +21,10 @@ export default new Vuex.Store({
     changeDate (state) {
       setInterval(() => {
         state.tsDate = +new Date()
-        console.log(state.tsDate)
       }, 5000)
     },
-    changeDatePrevWeek (state) {
-      state.tsDate = +new Date(state.tsDate).setDate(new Date(state.tsDate).getDate() - 7)
-    },
-    changeDateNextWeek (state) {
-      state.tsDate = +new Date(state.tsDate).setDate(new Date(state.tsDate).getDate() + 7)
+    changeDateWeek (state, arg = '') {
+      state.tsDate = +new Date(state.tsDate).setDate(new Date(state.tsDate).getDate() + parseInt(arg + '7'))
     },
     calculateWeekDays (state) {
       let count = 1

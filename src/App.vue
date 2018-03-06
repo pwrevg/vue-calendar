@@ -12,7 +12,6 @@
                   :key="index"
                   :index="index"
                   :room="room"
-                  :date="ThisWeek"
                 />
             </div>
         </div>
@@ -29,21 +28,6 @@ export default {
     MonthSwitcher,
     RoomShudle
   },
-  data: function () {
-    return {
-      Rooms: {
-        1: {label: 'Зелёная', notice: '(до 5 персон)', type: 'green'},
-        2: {label: 'Красная', notice: '(до 15 персон)', type: 'red'},
-        3: {label: 'Синяя', notice: '(до 25 персон)', type: 'blue'},
-        4: {label: 'Фиолетовая', notice: '(до 35 персон)', type: 'purpure'}
-      },
-      secondInDay: 86400000,
-      currentDate: +new Date(),
-      ThisWeek: undefined
-    }
-  },
-  created () {
-  },
   methods: {
     ...mapMutations(['changeDate']),
     ...mapGetters(['getRooms'])
@@ -51,4 +35,4 @@ export default {
 }
 </script>
 
-<style src="../static/style.css"></style>
+<style src="./assets/style.css"></style>
