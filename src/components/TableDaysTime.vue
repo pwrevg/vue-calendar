@@ -27,6 +27,13 @@ export default {
     }
   },
   created () {
+    if (localStorage.getItem('vue-calendar')) {
+      this.storageObject = JSON.parse(localStorage.getItem('vue-calendar'))
+    } else {
+      this.storageObject = {}
+      localStorage.setItem('vue-calendar', JSON.stringify(this.storageObject))
+    }
+
     this.Date = new Date(this.getCurrentDate)
     this.currentDay = this.Date.setDate(this.Date.getDate() - this.Date.getDay() + parseInt(this.dayIndex))
     this.timestampItem = +new Date(this.Date.getFullYear() + '.' + (this.Date.getMonth() + 1) + '.' + this.Date.getDate() + ' ' + this.value)
@@ -48,12 +55,7 @@ export default {
   },
   methods: {
     _reserve () {
-      if (localStorage.getItem('vue-calendar')) {
-        this.storageObject = JSON.parse(localStorage.getItem('vue-calendar'))
-      } else {
-        this.storageObject = {}
-      }
-
+      this.storageObject = JSON.parse(localStorage.getItem('vue-calendar'))
       if (!this.dontReserve) {
         if (this.isReserved) {
           delete this.storageObject[this.room.type + '_' + this.timestampItem]
