@@ -8,12 +8,6 @@ export default new Vuex.Store({
     monthFormatName: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
     daysFormatName: ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'],
     tsDate: +new Date(),
-    Rooms: {
-      1: {label: 'Зелёная', notice: '(до 5 персон)', type: 'green'},
-      2: {label: 'Красная', notice: '(до 15 персон)', type: 'red'},
-      3: {label: 'Синяя', notice: '(до 25 персон)', type: 'blue'},
-      4: {label: 'Фиолетовая', notice: '(до 35 персон)', type: 'purpure'}
-    },
     thisWeekDays: {},
     thisWeekDaysCount: 5
   },
@@ -46,9 +40,6 @@ export default new Vuex.Store({
     },
     getWeekDays (state) {
       return state.thisWeekDays
-    },
-    getRooms (state) {
-      return state.Rooms
     }
   }
 })

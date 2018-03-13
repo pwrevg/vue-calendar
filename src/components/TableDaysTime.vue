@@ -2,7 +2,7 @@
   <div
     class="content__shudle-time-zone "
     v-on:click="_reserve"
-    v-bind:class="{ blocked: isReserved, blockreserve: oldtime }"
+    v-bind:class="{ blocked: isReserved, blockreserve: dontReserve }"
   >{{ value }}</div>
 </template>
 <script>
@@ -10,58 +10,72 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'TableDaysTime',
-  props: ['value', 'roomIndex', 'dayIndex'],
+  props: {
+    value: String,
+    room: Object,
+    dayIndex: String
+  },
   data: function () {
     return {
       isReserved: false,
-      oldtime: false,
+      dontReserve: false,
       nowDate: undefined,
-      startWeekDay: this.getCurrentDate,
-      timeNow: undefined,
-      StorageKey: undefined
+      currentDay: this.getCurrentDate,
+      timeItem: undefined,
+      Date: undefined,
+      storageObject: {}
     }
   },
-  computed: {
-    ...mapGetters(['getCurrentDate', 'getRooms'])
-  },
   created () {
-    this.startWeekDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
-    this.timeNow = new Date(new Date(this.startWeekDay).getFullYear() + '.' + (new Date(this.startWeekDay).getMonth() + 1) + '.' + new Date(this.startWeekDay).getDate() + ' ' + this.value)
-    this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.startWeekDay).getFullYear() + '_' + new Date(this.startWeekDay).getMonth() + '_' + new Date(this.startWeekDay).getDate() + '_' + new Date(this.startWeekDay).getDay() + '_' + this.value.replace(':', '_')
-    this.nowDate = new Date(this.getCurrentDate)
-    this.oldtime = this._isOldtime()
+    this.Date = new Date(this.getCurrentDate)
+    this.currentDay = this.Date.setDate(this.Date.getDate() - this.Date.getDay() + parseInt(this.dayIndex))
+    this.timestampItem = +new Date(this.Date.getFullYear() + '.' + (this.Date.getMonth() + 1) + '.' + this.Date.getDate() + ' ' + this.value)
+    this.nowDate = +new Date(this.getCurrentDate)
+    this.dontReserve = this._isOldtime()
     this.isReserved = this._isReserve()
+  },
+  computed: {
+    ...mapGetters(['getCurrentDate'])
   },
   watch: {
     getCurrentDate: function (event) {
-      this.startWeekDay = new Date(this.getCurrentDate).setDate(new Date(this.getCurrentDate).getDate() - new Date(this.getCurrentDate).getDay() + parseInt(this.dayIndex))
-      this.timeNow = new Date(new Date(this.startWeekDay).getFullYear() + '.' + (new Date(this.startWeekDay).getMonth() + 1) + '.' + new Date(this.startWeekDay).getDate() + ' ' + this.value)
-      this.StorageKey = this.getRooms[this.roomIndex].type + '_' + new Date(this.startWeekDay).getFullYear() + '_' + new Date(this.startWeekDay).getMonth() + '_' + new Date(this.startWeekDay).getDate() + '_' + new Date(this.startWeekDay).getDay() + '_' + this.value.replace(':', '_')
-      this.oldtime = this._isOldtime()
+      this.Date = new Date(this.getCurrentDate)
+      this.currentDay = this.Date.setDate(this.Date.getDate() - this.Date.getDay() + parseInt(this.dayIndex))
+      this.timestampItem = +new Date(this.Date.getFullYear() + '.' + (this.Date.getMonth() + 1) + '.' + this.Date.getDate() + ' ' + this.value)
+      this.dontReserve = this._isOldtime()
       this.isReserved = this._isReserve()
     }
   },
   methods: {
     _reserve () {
-      if (!this.oldtime) {
+      if (localStorage.getItem('vue-calendar')) {
+        this.storageObject = JSON.parse(localStorage.getItem('vue-calendar'))
+      } else {
+        this.storageObject = {}
+      }
+
+      if (!this.dontReserve) {
         if (this.isReserved) {
-          localStorage.removeItem(this.StorageKey, 1)
+          delete this.storageObject[this.room.type + '_' + this.timestampItem]
+          localStorage.setItem('vue-calendar', JSON.stringify(this.storageObject))
           this.isReserved = false
         } else {
-          localStorage.setItem(this.StorageKey, 1)
+          this.storageObject[this.room.type + '_' + this.timestampItem] = true
+          localStorage.setItem('vue-calendar', JSON.stringify(this.storageObject))
           this.isReserved = true
         }
       }
     },
     _isOldtime () {
-      if (+new Date(this.nowDate) > +new Date(this.timeNow)) {
+      if (this.nowDate > this.timestampItem) {
         return true
       } else {
         return false
       }
     },
     _isReserve () {
-      if (localStorage.getItem(this.StorageKey)) {
+      this.storageObject = JSON.parse(localStorage.getItem('vue-calendar'))
+      if (this.storageObject[this.room.type + '_' + this.timestampItem]) {
         return true
       } else {
         return false

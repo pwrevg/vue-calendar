@@ -6,7 +6,8 @@
     </div>
     <TableDays
       :type="room.type"
-      :roomIndex="index"
+      :room="room"
+      :index="index"
     />
   </div>
 </template>
@@ -18,6 +19,9 @@ export default {
   components: {
     TableDays
   },
-  props: ['room', 'index']
+  props: {
+    room: Object,
+    index: String
+  }
 }
 </script>

@@ -9,8 +9,8 @@
           v-for="(time, timeIndex) in timeClocks"
           :value="time"
           :key="timeIndex"
-          :roomIndex="roomIndex"
           :dayIndex="dayIndex"
+          :room="room"
         />
       </div>
   </div>
@@ -21,15 +21,18 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'TableDays',
+  components: {
+    TableDaysTime
+  },
+  props: {
+    room: Object,
+    index: String
+  },
   data () {
     return {
       timeClocks: ['9:00', '14:00', '10:00', '15:00', '11:00', '16:00', '12:00', '17:00', '13:00', '18:00']
     }
   },
-  components: {
-    TableDaysTime
-  },
-  props: ['roomIndex'],
   computed: {
     ...mapGetters(['getWeekDays'])
   }
